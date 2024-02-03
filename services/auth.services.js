@@ -28,3 +28,12 @@ export const loginUser = async ({ email, password }) => {
     throw error;
   }
 };
+
+export const logout = async () => {
+  try {
+    let { error } = await supabase.auth.signOut();
+    if (error) throw error;
+  } catch (error) {
+    throw error;
+  }
+};

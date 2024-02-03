@@ -21,10 +21,10 @@ import { Input } from "@/components/ui/input";
 import { signUpUser } from "@/services/auth.services";
 import { yupResolver } from "@hookform/resolvers/yup";
 // import { Loader2, LogIn } from "lucide-react";
-// import { useRouter } from "next-nprogress-bar";
+import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { Toaster, toast } from "sonner";
 import * as yup from "yup";
 
 const loginFormSchema = yup.object().shape({
@@ -52,7 +52,7 @@ const loginFormSchema = yup.object().shape({
 export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
 
-  // const router = useRouter();
+  const router = useRouter();
 
   const form = useForm({ resolver: yupResolver(loginFormSchema) });
 
@@ -61,10 +61,7 @@ export default function SignUp() {
       setIsLoading(true);
       await signUpUser(values);
       router.push("/login");
-      toast({
-        title: "Success",
-        description: "You have successfully signed up. Check your email inbox",
-      });
+      toast.success("Successful sign up !");
     } catch (error) {
       console.error(error);
       toast.error(error.message);
@@ -77,89 +74,92 @@ export default function SignUp() {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleLoginFormSubmit)}
-        className="h-screen w-screen flex justify-center items-center"
-      >
-        <Card>
-          <CardHeader>
-            <CardTitle>Sign Up</CardTitle>
-            <CardDescription>Sign up to create an account</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="example@example.com"
-                      type="email"
-                      autoComplete="username"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage aria-live="polite" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="********"
-                      type="password"
-                      autoComplete="current-password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm password</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="********"
-                      type="password"
-                      autoComplete="current-password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-          <CardFooter className="justify-center">
-            <Button
-              role="button"
-              aria-label="se connecter"
-              disabled={isLoading}
-              className="gap-3 "
-            >
-              {/* {isLoading ? (
+    <>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleLoginFormSubmit)}
+          className="h-screen w-screen flex justify-center items-center"
+        >
+          <Card>
+            <CardHeader>
+              <CardTitle>Sign Up</CardTitle>
+              <CardDescription>Sign up to create an account</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="example@example.com"
+                        type="email"
+                        autoComplete="username"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage aria-live="polite" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="********"
+                        type="password"
+                        autoComplete="current-password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="********"
+                        type="password"
+                        autoComplete="current-password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+            <CardFooter className="justify-center">
+              <Button
+                role="button"
+                aria-label="se connecter"
+                disabled={isLoading}
+                className="gap-3 "
+              >
+                {/* {isLoading ? (
                 <Loader2 className="animate-spin" size="16" />
               ) : (
                 <LogIn size="16" />
               )} */}
-              Sign up
-            </Button>
-          </CardFooter>
-        </Card>
-      </form>
-    </Form>
+                Sign up
+              </Button>
+            </CardFooter>
+          </Card>
+        </form>
+      </Form>
+      <Toaster />
+    </>
   );
 }

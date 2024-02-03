@@ -1,4 +1,5 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Create an application allowing users to register and log in.
+Integrate the RESEND messaging API
 
 ## Getting Started
 

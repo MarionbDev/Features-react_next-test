@@ -24,7 +24,7 @@ import { useRouter } from "next-nprogress-bar";
 // import { Loader2, LogIn } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { Toaster, toast } from "sonner";
 import * as yup from "yup";
 
 const loginFormSchema = yup.object().shape({
@@ -53,10 +53,7 @@ export default function LoginUser() {
       setIsLoading(true);
       await loginUser(values);
       router.push("/account");
-      toast({
-        title: "Success",
-        description: "You have successfully signed up. Check your email inbox",
-      });
+      toast.success("Successful login !");
     } catch (error) {
       console.error(error);
       toast.error(error.message);
@@ -69,71 +66,74 @@ export default function LoginUser() {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleLoginFormSubmit)}
-        className="h-screen w-screen flex justify-center items-center"
-      >
-        <Card>
-          <CardHeader>
-            <CardTitle>Login</CardTitle>
-            <CardDescription>Login your account</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="example@example.com"
-                      type="email"
-                      autoComplete="username"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage aria-live="polite" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="********"
-                      type="password"
-                      autoComplete="current-password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-          <CardFooter className="justify-center">
-            <Button
-              role="button"
-              aria-label="se connecter"
-              disabled={isLoading}
-              className="gap-3 "
-            >
-              {/* {isLoading ? (
+    <>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleLoginFormSubmit)}
+          className="h-screen w-screen flex justify-center items-center"
+        >
+          <Card>
+            <CardHeader>
+              <CardTitle>Login</CardTitle>
+              <CardDescription>Login your account</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="example@example.com"
+                        type="email"
+                        autoComplete="username"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage aria-live="polite" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="********"
+                        type="password"
+                        autoComplete="current-password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+            <CardFooter className="justify-center">
+              <Button
+                role="button"
+                aria-label="se connecter"
+                disabled={isLoading}
+                className="gap-3 "
+              >
+                {/* {isLoading ? (
                 <Loader2 className="animate-spin" size="16" />
               ) : (
                 <LogIn size="16" />
               )} */}
-              Login
-            </Button>
-          </CardFooter>
-        </Card>
-      </form>
-    </Form>
+                Login
+              </Button>
+            </CardFooter>
+          </Card>
+        </form>
+      </Form>
+      <Toaster />
+    </>
   );
 }

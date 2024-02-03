@@ -2,9 +2,7 @@ import EmailTemplate from "@/app/_components/emailTemplate";
 import { resend } from "@/lib/resend";
 import { NextResponse } from "next/server";
 
-// Créer une nouvelle instance RESEND dans notre application
-
-// Envoi de l'email
+// Send email
 export const POST = async (request) => {
   try {
     console.log("Received a POST request");
@@ -15,7 +13,7 @@ export const POST = async (request) => {
 
     resend.emails.send({
       from: "onboarding@resend.dev",
-      to: ["marionbaston84@gmail.com"],
+      to: ["my_email_adress"],
       subject: "Hello World",
       html: "<p>Congrats on sending your <strong>first email</strong>!</p>",
       react: EmailTemplate({ firstname, message }),

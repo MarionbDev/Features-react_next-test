@@ -20,7 +20,9 @@ export default function AccountUser() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/api/email/route", {
+      const response = await fetch("http://localhost:3000/api/email/", {
+        //la route est ok puisque resend m'envoie un mail.
+        // Alors, pourquoi "error 500 POST" et "error 500 HTTP"
         method: "POST",
         headers: {
           "Content-Type": "application/json",

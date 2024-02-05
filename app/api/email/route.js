@@ -1,6 +1,7 @@
-import EmailTemplate from "@/app/_components/emailTemplate";
+import EmailTemplate from "@/emails/emailTemplate";
 import { resend } from "@/lib/resend";
 import { NextResponse } from "next/server";
+// import {render} from "react-email"
 
 // Send email
 export const POST = async (request) => {
@@ -9,21 +10,33 @@ export const POST = async (request) => {
 
     const body = await request.json();
 
-    const { firstname, message } = body;
+    const { firstname, lastname, email, message } = body;
+
+    console.log("body server", body);
 
     resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: ["my_email_adress"],
-      subject: "Hello World",
-      html: "<p>Congrats on sending your <strong>first email</strong>!</p>",
-      react: EmailTemplate({ firstname, message }),
+      from:
+        process.env.ENVIRONMENT === "production"
+          ? email
+          : "onboarding@resend.dev",
+      // to:
+      //   process.env.ENVIRONMENT === "production"
+      //     ? email
+      //     : "delivered@resend.dev", // email destinataire en mode dév
+      to: process.env.TO_EMAIL,
+      subject: "Test React Email/Resend",
+      react: EmailTemplate({ firstname, lastname, email, message }),
+      // html: render(EmailTemplate({ firstname, lastname, email, message }),) // A utiliser pour Nodemailer par ex.
     });
 
-    console.log("Email send result:", data);
+    // console.log("Email send result:", emailResult);
 
     return NextResponse.json({ message: "email successfull sent!" });
   } catch (error) {
     console.log("error", error);
-    NextResponse.json({ error });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 };

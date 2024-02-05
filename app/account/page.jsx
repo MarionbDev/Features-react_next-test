@@ -9,7 +9,9 @@ export default function AccountUser() {
   const router = useRouter();
 
   const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleLogout = async () => {
     await logout();
@@ -21,13 +23,11 @@ export default function AccountUser() {
 
     try {
       const response = await fetch("http://localhost:3000/api/email/", {
-        //la route est ok puisque resend m'envoie un mail.
-        // Alors, pourquoi "error 500 POST" et "error 500 HTTP"
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ firstname, message }),
+        body: JSON.stringify({ firstname, lastname, message, email }),
       });
 
       console.log("Received response:", response);
@@ -37,11 +37,14 @@ export default function AccountUser() {
       }
 
       const data = await response.json();
+      console.log("data client", data);
 
       if (data && data.message) {
-        alert(`Thank you for your interest ${firstname}! ${data.message}`);
+        alert(`Thank you for your interest ! ${data.message}`);
         setFirstname("");
+        setLastname("");
         setMessage("");
+        setEmail("");
       } else {
         alert("Apologies! Please try again.");
       }
@@ -64,7 +67,7 @@ export default function AccountUser() {
           <div className="">Contact Me</div>
           <form className=" flex flex-col gap-4" onSubmit={handleSubmitForm}>
             <label htmlFor="firstname" className="sr-only">
-              Name
+              Firstname
             </label>
             <input
               id="firstname"
@@ -74,10 +77,24 @@ export default function AccountUser() {
               required
               value={firstname}
               className="rounded-md px-3.5 py-2.5 ring-1 ring-inset focus:ring-blue-600 text-sm md:w-96"
-              placeholder="First name"
+              placeholder="Your firstname"
               onChange={(e) => setFirstname(e.target.value)}
             />
-            {/* <label htmlFor="email-address" className="sr-only">
+            <label htmlFor="lastname" className="sr-only">
+              Lastname
+            </label>
+            <input
+              id="lastname"
+              name="lastname"
+              type="text"
+              autoComplete="lastname"
+              required
+              value={lastname}
+              className="rounded-md px-3.5 py-2.5 ring-1 ring-inset focus:ring-blue-600 text-sm md:w-96"
+              placeholder="Your lastname"
+              onChange={(e) => setLastname(e.target.value)}
+            />
+            <label htmlFor="email-address" className="sr-only">
               Email address
             </label>
             <input
@@ -86,11 +103,11 @@ export default function AccountUser() {
               type="email"
               autoComplete="email"
               required
-              // value={email}
-              className="rounded-md bg-white/5 px-3.5 py-2.5 text-white ring-1 ring-inset focus:ring-blue-600 text-sm md:w-96"
-              placeholder="Email"
+              value={email}
+              className="rounded-md  px-3.5 py-2.5 ring-1 ring-inset focus:ring-blue-600 text-sm md:w-96"
+              placeholder="Your Email"
               onChange={(e) => setEmail(e.target.value)}
-            /> */}
+            />
             <label htmlFor="name" className="sr-only">
               Message
             </label>
@@ -102,7 +119,7 @@ export default function AccountUser() {
               required
               value={message}
               className="rounded-md px-3.5 py-2.5 ring-1 ring-inset focus:ring-blue-600 text-sm md:w-96"
-              placeholder="Message"
+              placeholder="Your message"
               onChange={(e) => setMessage(e.target.value)}
             />
             <Button type="submit" className=" flex  w-20">

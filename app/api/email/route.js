@@ -15,16 +15,15 @@ export const POST = async (request) => {
     console.log("body server", body);
 
     resend.emails.send({
-      from:
-        process.env.ENVIRONMENT === "production"
-          ? email
-          : "onboarding@resend.dev",
+      from: "marionbaston.fr <onboarding@resend.dev>",
       // to:
       //   process.env.ENVIRONMENT === "production"
       //     ? email
-      //     : "delivered@resend.dev", // email destinataire en mode dév
+      //     : "delivered@resend.dev", // email destinataire en mode dev
+      //     : "onboarding@resend.dev", // email destinataire en mode prod
+
       to: process.env.TO_EMAIL,
-      subject: "Test React Email/Resend",
+      subject: "Message utilisateur",
       react: EmailTemplate({ firstname, lastname, email, message }),
       // html: render(EmailTemplate({ firstname, lastname, email, message }),) // A utiliser pour Nodemailer par ex.
     });

@@ -15,8 +15,12 @@ import ContactForm from "./_components/_resend-email/ContactForm";
 export default function AccountUser() {
   const router = useRouter();
 
-  const handleButtonClick = async () => {
+  const handleButtonClickMap = async () => {
     router.push("/account/map");
+  };
+
+  const handleButtonClickTextEditor = async () => {
+    router.push("/account/text-editor");
   };
 
   const handleLogout = async () => {
@@ -47,8 +51,11 @@ export default function AccountUser() {
           <UseContactForm />
         </div>
       </div>
-      <Button onClick={handleButtonClick} role="button">
+      <Button onClick={handleButtonClickMap} role="button">
         Map
+      </Button>
+      <Button onClick={handleButtonClickTextEditor} role="button">
+        Text Editor
       </Button>
       {/* <DynamicMap /> */}
     </div>

@@ -23,13 +23,17 @@ export default function AccountUser() {
     router.push("/account/text-editor");
   };
 
+  const handleButtonClickTDatePicker = async () => {
+    router.push("/account/date-picker");
+  };
+
   const handleLogout = async () => {
     await logout();
     router.push("/");
   };
 
   return (
-    <div className="mx-10  ">
+    <div className="mx-10 gap-10">
       <div className="flex justify-between mt-10 gap-20">
         <p>ACCOUNT</p>
         <Button onClick={handleLogout} role="button" className="w-20">
@@ -51,13 +55,18 @@ export default function AccountUser() {
           <UseContactForm />
         </div>
       </div>
-      <Button onClick={handleButtonClickMap} role="button">
-        Map
-      </Button>
-      <Button onClick={handleButtonClickTextEditor} role="button">
-        Text Editor
-      </Button>
-      {/* <DynamicMap /> */}
+      <div className=" flex gap-10">
+        <Button onClick={handleButtonClickMap} role="button">
+          Map
+        </Button>
+        <Button onClick={handleButtonClickTextEditor} role="button">
+          Text Editor
+        </Button>
+        <Button onClick={handleButtonClickTDatePicker} role="button">
+          Calendrier
+        </Button>
+        {/* <DynamicMap /> */}
+      </div>
     </div>
   );
 }
